@@ -1,0 +1,180 @@
+---
+output: github_document
+always_allow_html: yes
+---
+
+```{r setup, include=FALSE, message=FALSE, warning=FALSE, echo=FALSE, results='hide'}
+knitr::opts_chunk$set(echo = TRUE)
+k_path_project <<- tryCatch(rprojroot::find_rstudio_root_file(), error = function(e) getwd())
+library(kableExtra)
+library(magrittr)
+library(readr)
+
+badge_custom <- function(key, value, color, url = NULL){
+    alt <- paste(key)
+    key <- gsub(" ", "%20", key)
+    value <- gsub(" ", "%20", value)
+    key <- gsub("-", "--", key)
+    value <- gsub("-", "--", value)
+    badge <- paste0("![", alt, "](https://img.shields.io/badge/", key, "-", 
+        value, "-", color, ".svg)")
+    if (is.null(url)) 
+        return(badge)
+    paste0("[", badge, "](", url, ")")
+}
+```
+
+# More for Less: Adaptive Labeling Payments in Online Labor Markets
+
+<!-- badges: start -->
+`r badge_custom("Language", "R (3.4.3)", "green")`
+<!-- badges: end -->
+
+## Synopsis
+
+In many predictive tasks where human intelligence is needed to label training
+instances, online crowdsourcing markets have emerged as promising platforms for
+large-scale, cost-effective labeling.
+
+However, these platforms also introduce significant challenges that must be
+addressed for these opportunities to materialize.
+
+In particular, it has been shown that different tradeoffs between payment
+offered to labelers and the quality of labeling arise at different times,
+possibly as a result of different market conditions and even the nature of the
+tasks themselves.
+
+Because the underlying mechanism giving rise to different tradeoffs is not well
+understood, for any given labeling task and at any given time, it is not known
+what labeling payments to offer in the market so as to cost-effectively produce
+accurate models.
+
+Importantly, because in these markets the acquired labels are not always
+correct, determining the expected effect of labels acquired at any given payment
+on the improvement in model performance is particularly challenging.
+
+Effective and robust methods for dealing with these challenges are essential to
+enable a growing reliance on these promising and increasingly popular labor
+markets for large-scale labeling.
+
+In this paper, we first present this new problem of Adaptive Labeling Payment
+(ALP): how to learn and sequentially adapt the payment offered to crowd labelers
+before they undertake a labeling task, so as to produce a given predictive
+performance cost-effectively. 
+
+We then develop an ALP approach and discuss the key challenges it aims to
+address to yield consistently good performance.
+
+We extensively evaluate our approach over a wide variety of market conditions.
+
+Our results demonstrate that the ALP method we propose yields significant cost
+savings and robust performance across different settings.
+
+As such, our ALP approach can be used as a benchmark for future mechanisms to
+determine cost-effective selection of labeling payments.
+
+
+## Reproducing the Paper Results
+
+This project was developed and tested under R 3.4.3 for Windows which you can
+get [here](https://cran.r-project.org/bin/windows/base/old/3.4.3/). 
+
+All the project essential R packages will be installed automatically when you
+first launch the code.
+
+The installed packages versions are exactly as they existed when the code was
+developed and tested.
+
+While the project may work on newer versions of R and its packages, we can only
+guarantee the reproducibility of the results when the conditions above are met.
+
+## How to Run
+
+1. Download the project from GitHub and unpack it into a local directory.
+2. Open R or RStudio and set the working directory to the project root folder.
+3. Run **main.R** under the *~/code* folder.
+
+## How it Works
+
+### Inputs
+
+Configuration and execution of the simulations are coded in two separate files:
+*config.yml* and *main.R*. Both files are under the *~/code* folder.
+
+The configuration file defines the dataset, scenario and simulation nuances via
+[yaml tags](https://yaml.org/spec/1.2/spec.html#id2761292). The tags are
+accompanied by explanations about what they define.
+
+The script file named *main.R*, initializes and runs the simulation without
+further modification needed.
+
+### Algorithm
+
+See the paper for details about the different algorithms.
+
+## Output
+
+Upon successful completion, each simulation outputs three files (see
+[Appendix](#appendix)):
+
+1. [A report table](#report-table) under *~/results/reports*
+2. [A metadata table](#metadata-table) under *~/results/metadata*
+3. [A ledger table](#ledger-table) under *~/results/ledgers*
+
+While there is some overlap between the tables, the *report* table serves as the
+most succinct debrief. The other two tables are exposed the observer to the
+decision making process of the algorithm. *metadata* and *ledger* provide
+details on what happened on an instance-level and batch-level, respectively.
+
+## Appendix
+
+### Report table
+  
+```{r, echo=FALSE, out.width = "100%"}
+suppressMessages(
+    table <- read_csv(file.path(k_path_project, "README_files", "report.csv"))
+)
+table %>% 
+    tail() %>% 
+    kable(digits = 2) %>% 
+    kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed"),
+                              full_width = TRUE,
+                              position = "left",
+                              font_size = 10)
+```
+
+<br>
+
+### Metadata table
+   
+```{r, echo=FALSE, out.width = "100%"}
+suppressMessages(
+    table <- read_csv(file.path(k_path_project, "README_files", "metadata.csv"))
+)
+table %>% 
+    tail() %>% 
+    kable(digits = 2) %>% 
+    kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed"),
+                              full_width = TRUE,
+                              position = "left",
+                              font_size = 10)
+```
+
+<br> 
+
+### Ledger table
+   
+```{r, echo=FALSE, out.width = "100%"}
+suppressMessages(
+    table <- read_csv(file.path(k_path_project, "README_files", "ledger.csv"))
+)
+table %>% 
+    tail() %>% 
+    kable(digits = 2) %>% 
+    kableExtra::kable_styling(bootstrap_options = c("striped", "hover", "condensed"),
+                              full_width = TRUE,
+                              position = "left",
+                              font_size = 10)
+```
+
+
