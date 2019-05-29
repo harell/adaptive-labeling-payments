@@ -1,0 +1,84 @@
+##################
+## Get the Data ##
+##################
+## Chooce one or more datasets and comment all the rest
+DATABASE_NAME: 
+ #- Spam
+ # - Mushroom
+  - Pen Digits
+
+
+####################
+## Split the Data ##
+####################
+initial_seed: 1811 # large number
+## Percentage of data in external holdout
+p_holdout: 0.3  
+
+
+#########################
+## Scenario Parameters ##
+#########################
+## The different payment values available
+price_per_label_values: 
+  - 0.02
+  - 0.14
+  - 0.25
+## The number of instances to acquire at each epoch
+k_batch_size: 10
+## Stopping criterion for the experiment. When the budget is exhausted the run is terminated 
+max_total_cost: 150 # should be larger than the cost of paying for the initial training batches
+
+
+###########################
+## Resampling Parameters ##
+###########################
+## The number of last instances for each payment option to consider 
+max_instances_in_history: 100
+## The number of times to resample each payment option
+number_batch_omissions: 10
+## The number of folds to split the remaining dataset after batch omitting 
+cross_validation_folds: 8
+## The number of times to perform cross-validation
+cross_validation_reruns: 4
+
+
+###########################
+## Simulation Parameters ##
+###########################
+## The number of experiments to conduct with each set of settings using different seeds 
+repeatitions: 20
+## Chooce one or more classification models to use in the experiment 
+model_inducer: 
+  - "RF"
+#  - "SVM"
+#  - "GLM"
+#  - "BAG"
+#  - "J48"
+## Choose one or more policies for deciding how much to pay for the next batch (note: the option named "random" in this selection, is the "uniform" payment option in the paper)
+payment_selection_criteria: 
+  - random
+#  - min_pay_per_label
+#  - max_pay_per_label
+#  - max_ratio
+  - max_total_ratio
+## What should be the first cost function?
+primary_cost_function:
+  - fix
+  - concave
+  - asymptotic
+#  - linear
+## In case fixed quality-cost trade-off is employed, what is the quality \in (0,1]?
+fixProbability: 0.85
+## Optional: Second cost function
+### change the market condition during execution?
+secondary_cost_function_flag: FALSE
+### what should be the second cost function
+secondary_cost_function:
+#  - fix
+#  - concave
+  - asymptotic
+### At what cost should the change take place?
+model_cost_for_changing_cost_function: 75
+
+
